@@ -1,30 +1,136 @@
 <template>
-  <div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
+  <div class="pageContainer">
+    <main>
+      <Header />
+      <router-view />
+    </main>
+    <Player />
+    <Audio />
   </div>
-  <router-view />
 </template>
 
+<script lang="ts">
+import Header from "@/components/Header.vue";
+import Player from "@/components/Player.vue";
+import Audio from "@/components/Audio.vue";
+
+import { defineComponent } from "vue";
+export default defineComponent({
+  components: {
+    Header,
+    Player,
+    Audio,
+  },
+});
+</script>
+
 <style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+:root {
+  --clr-default: #ffffff;
+  --clr-background: #f5f6fa;
+  --clr-complement: #e6e8eb;
+
+  --clr-text-heading: #494d4b;
+  --clr-text-default: #808080;
+  --clr-text-complement: #afb2b1;
+  --clr-text-in-colors: #ffffff;
+
+  --clr-primary-light: #8f278c;
+  --clr-primary: #6b0b69;
+  --clr-primary-dark: #490047;
+  --clr-secondary: #03d8e5;
+  --clr-gradient: linear-gradient(
+    143.8deg,
+    rgba(143, 39, 140, 0.8) 0%,
+    rgba(143, 39, 140, 0) 100%
+  );
+
+  --fs-body: 400 0.875rem "Inter", sans-serif;
+  --fs-heading-2: 600 1rem "Lexend", sans-serif;
+  --fs-heading-1: 600 1.5rem "Lexend", sans-serif;
+  --fs-caption: 500 0.75rem "Lexend", sans-serif;
 }
 
-#nav {
-  padding: 30px;
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
 
-  a {
-    font-weight: bold;
-    color: #2c3e50;
+p,
+span,
+a {
+  font: var(--fs-body);
+  color: var(--clr-text-default);
+}
 
-    &.router-link-exact-active {
-      color: #42b983;
-    }
+h1,
+h2 {
+  font: var(--fs-heading-1);
+}
+
+body,
+input,
+button,
+h3,
+h4,
+h5,
+h6 {
+  font: var(--fs-heading-2);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--clr-text-heading);
+}
+
+td {
+  font: var(--fs-body);
+  color: var(--clr-text-default);
+}
+
+td a {
+  font: var(--fs-heading-2);
+  color: var(--clr-text-heading);
+}
+
+th {
+  font: var(--fs-caption);
+  color: var(--clr-text-complement);
+  text-transform: uppercase;
+}
+
+th a {
+  text-decoration: none;
+}
+
+button {
+  cursor: pointer;
+  border: 0;
+  background: transparent;
+}
+
+body {
+  background: var(--clr-background);
+}
+
+#app {
+  height: 100vh;
+  overflow: hidden;
+}
+
+.pageContainer {
+  display: flex;
+  height: 100%;
+
+  main {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
   }
 }
 </style>

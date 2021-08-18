@@ -10,6 +10,7 @@ module.exports = {
     "@vue/prettier",
     "@vue/prettier/@typescript-eslint",
   ],
+  plugins: ["simple-import-sort"],
   parserOptions: {
     ecmaVersion: 2020,
   },
