@@ -21,7 +21,6 @@ const actions = mapActions("player", [
   TActionsTypes.UPDATE_PROGRESS,
   TActionsTypes.NEXT_EPISODE,
   TActionsTypes.CLEAR_PLAYER,
-  TActionsTypes.SET_AUDIO_REF,
 ]);
 
 const { currentEpisode: episode, ...getters } = mapGetters("player", [
@@ -30,7 +29,6 @@ const { currentEpisode: episode, ...getters } = mapGetters("player", [
   "isPlaying",
   "isLooping",
   "hasNext",
-  "audioRef",
 ]);
 
 export default defineComponent({
@@ -43,15 +41,12 @@ export default defineComponent({
     updateProgress: actions.UPDATE_PROGRESS,
     nextEpisode: actions.NEXT_EPISODE,
     clearPlayer: actions.CLEAR_PLAYER,
-    setAudioRef: actions.SET_AUDIO_REF,
     setupProgressListener() {
-      if (this.audioRef) {
-        const audioRef = this.audioRef;
+      const audioRef = this.$refs.audio as HTMLAudioElement;
 
-        audioRef.addEventListener("timeupdate", () => {
-          this.updateProgress(audioRef.currentTime);
-        });
-      }
+      audioRef.addEventListener("timeupdate", () => {
+        this.updateProgress(audioRef?.currentTime || 0);
+      });
     },
     handleEpisodeEnded() {
       if (this.hasNext) {
@@ -59,12 +54,6 @@ export default defineComponent({
       } else {
         this.clearPlayer();
         this.updateProgress(0);
-      }
-    },
-    handleSliderChange(progress: number) {
-      if (this.audioRef) {
-        this.audioRef.currentTime = progress;
-        this.updateProgress(progress);
       }
     },
   },

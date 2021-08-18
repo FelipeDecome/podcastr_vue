@@ -43,7 +43,6 @@ export default defineComponent({
       "isLooping",
       "shuffle",
       "progress",
-      "audioRef",
     ]),
     status(): Record<string, string> {
       return {

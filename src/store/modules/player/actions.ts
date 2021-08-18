@@ -17,7 +17,6 @@ enum TActionsTypes {
   NEXT_EPISODE = "NEXT_EPISODE",
   PREVIOUS_EPISODE = "PREVIOUS_EPISODE",
   CLEAR_PLAYER = "CLEAR_PLAYER",
-  SET_AUDIO_REF = "SET_AUDIO_REF",
 }
 
 interface IPlayListPayload {
@@ -52,10 +51,6 @@ type TActions = {
   [TActionsTypes.NEXT_EPISODE](context: TActionContext): void;
   [TActionsTypes.PREVIOUS_EPISODE](context: TActionContext): void;
   [TActionsTypes.CLEAR_PLAYER](context: TActionContext): void;
-  [TActionsTypes.SET_AUDIO_REF](
-    context: TActionContext,
-    payload: TState["audioRef"]
-  ): void;
 };
 
 const actions: ActionTree<TState, TRoot["state"]> & TActions = {
@@ -104,9 +99,6 @@ const actions: ActionTree<TState, TRoot["state"]> & TActions = {
   [TActionsTypes.CLEAR_PLAYER]({ commit }) {
     commit(TMutationTypes.SET_EPISODE_LIST, []);
     commit(TMutationTypes.SET_CURRENT_EPISODE, 0);
-  },
-  [TActionsTypes.SET_AUDIO_REF]({ commit }, payload) {
-    commit(TMutationTypes.SET_AUDIO_REF, payload);
   },
 };
 
