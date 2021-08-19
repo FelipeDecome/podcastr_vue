@@ -22,4 +22,5 @@ export const getters: GetterTree<TState, TRoot["state"]> & TGetters = {
   shuffle: (state) => state.shuffle,
   playlist: (state) => state.playlist,
   progress: (state) => state.progress,
+  audioRef: (state) => state.audioRef,
 };

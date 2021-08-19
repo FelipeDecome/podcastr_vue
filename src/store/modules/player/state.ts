@@ -11,6 +11,7 @@ type TState = {
   shuffle: boolean;
   playlist: TEpisode[];
   progress: number;
+  audioRef: HTMLAudioElement | null;
 };
 
 const state: TState = {
@@ -20,6 +21,7 @@ const state: TState = {
   shuffle: false,
   playlist: [],
   progress: 0,
+  audioRef: null,
 };
 
 export { state, TState };

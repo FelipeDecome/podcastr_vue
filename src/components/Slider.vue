@@ -14,21 +14,24 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 
-const getMousePosition = (e: MouseEvent) => {
-  return Math.max(0, e.offsetX);
+const getMousePosition = (e: MouseEvent, rect: DOMRect) => {
+  const pos = e.clientX - rect.left;
+  return getPosition(pos, rect.width);
 };
 const getTouchPosition = (e: TouchEvent, rect: DOMRect) => {
   const pos = e.touches[0].clientX - rect.left;
-
-  return Math.min(rect.width, Math.max(0, pos));
+  return getPosition(pos, rect.width);
+};
+const getPosition = (pos: number, width: number) => {
+  return Math.min(width, Math.max(0, pos));
 };
 
-const parseProgress = (pos: number, max: number) => (pos * 100) / max;
+const parsePercentage = (value: number, max: number) => (value * 100) / max;
+const parseProgress = (percentage: number, max: number) =>
+  (percentage / 100) * max;
 
 type TData = {
   progress: number;
-  container: HTMLDivElement | null;
-  containerRect: DOMRect | null;
 };
 
 export default defineComponent({
@@ -45,19 +48,17 @@ export default defineComponent({
   data(): TData {
     return {
       progress: 0,
-      container: null,
-      containerRect: null,
     };
   },
   computed: {
     handlerStyle() {
       return {
-        left: `${this.progress}%`,
+        left: `${parsePercentage(this.value, this.max)}%`,
       };
     },
     trackStyle() {
       return {
-        width: `${this.progress}%`,
+        width: `${parsePercentage(this.value, this.max)}%`,
       };
     },
   },
@@ -68,17 +69,19 @@ export default defineComponent({
       const position = getTouchPosition(e, container.getBoundingClientRect());
 
       console.log(
-        parseProgress(position, container.getBoundingClientRect().width)
+        parsePercentage(position, container.getBoundingClientRect().width)
       );
     },
     mouseStart(e: MouseEvent) {
       const container = this.$refs.container as HTMLDivElement;
-      const position = getMousePosition(e);
+      const position = getMousePosition(e, container.getBoundingClientRect());
 
-      this.progress = parseProgress(
+      const barPercentage = parsePercentage(
         position,
         container.getBoundingClientRect().width
       );
+
+      this.progress = parseProgress(barPercentage, this.max);
     },
   },
   watch: {

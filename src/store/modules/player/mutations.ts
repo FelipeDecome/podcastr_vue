@@ -9,6 +9,7 @@ enum TMutationTypes {
   SET_IS_LOOPING = "SET_IS_LOOPING",
   SET_PROGRESS = "SET_PROGRESS",
   SET_SHUFFLE = "SET_SHUFFLE",
+  SET_AUDIO_REF = "SET_AUDIO_REF",
 }
 
 type TMutations = {
@@ -18,6 +19,10 @@ type TMutations = {
   [TMutationTypes.SET_IS_LOOPING](state: TState, payload: boolean): void;
   [TMutationTypes.SET_PROGRESS](state: TState, payload: number): void;
   [TMutationTypes.SET_SHUFFLE](state: TState, payload: boolean): void;
+  [TMutationTypes.SET_AUDIO_REF](
+    state: TState,
+    payload: HTMLAudioElement
+  ): void;
 };
 
 const mutations: MutationTree<TState> & TMutations = {
@@ -38,6 +43,9 @@ const mutations: MutationTree<TState> & TMutations = {
   },
   [TMutationTypes.SET_SHUFFLE](state, payload) {
     state.shuffle = payload;
+  },
+  [TMutationTypes.SET_AUDIO_REF](state, payload) {
+    state.audioRef = payload;
   },
 };
 

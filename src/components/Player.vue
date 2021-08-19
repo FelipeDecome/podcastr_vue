@@ -43,6 +43,7 @@ export default defineComponent({
       "isLooping",
       "shuffle",
       "progress",
+      "audioRef",
     ]),
     status(): Record<string, string> {
       return {
@@ -58,6 +59,12 @@ export default defineComponent({
     toggleShuffle: actions.TOGGLE_SHUFFLE,
     nextEpisode: actions.NEXT_EPISODE,
     previousEpisode: actions.PREVIOUS_EPISODE,
+    handleSliderChange(progress: number) {
+      if (!this.audioRef) return;
+
+      this.audioRef.currentTime = progress;
+      this.updateProgress(progress);
+    },
   },
 });
 </script>
@@ -88,7 +95,11 @@ export default defineComponent({
           {{ $filters.formatEpisodeDuration(progress) }}
         </span>
         <div class="__slider">
-          <Slider :max="currentEpisode.duration" :value="progress" />
+          <Slider
+            :max="currentEpisode.duration"
+            :value="progress"
+            @updateProgress="handleSliderChange"
+          />
         </div>
         <span class="__time">
           {{ $filters.formatEpisodeDuration(currentEpisode.duration) }}
