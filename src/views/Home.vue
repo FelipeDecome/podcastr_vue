@@ -18,7 +18,6 @@
     </section>
     <section class="section episodes">
       <h2 class="__heading">Todos os episódios</h2>
-      <!-- ! REMOVE RESPONSABILITY OF PLAYING EPISODE FROM COMPONENT -->
       <EpisodesTable :episodes="allEpisodes" @play="handleTablePlay" />
     </section>
   </div>
@@ -66,42 +65,32 @@ export default defineComponent({
   setup() {
     const episodes = ref<TEpisode[]>([]);
 
-    const storageEpisodes = localStorage.getItem("@PODCASTR:EPISODES");
+    (async () => {
+      try {
+        const { data } = (await api.get(
+          "podcasts/618f72ea42f94904bd29cfc1a6edc8b1"
+        )) as { data: IReponse };
 
-    if (storageEpisodes) episodes.value = JSON.parse(storageEpisodes);
+        const parsedEpisodes = data.episodes.map(
+          (episode) =>
+            ({
+              id: episode.id,
+              title: episode.title,
+              description: episode.description,
+              thumbnail: episode.thumbnail,
+              duration: episode.audio_length_sec,
+              publisher: data.publisher,
+              podcastTitle: data.title,
+              published_date: episode.pub_date_ms,
+              url: episode.audio,
+            } as TEpisode)
+        );
 
-    if (!storageEpisodes)
-      (async () => {
-        try {
-          const { data } = (await api.get(
-            "podcasts/618f72ea42f94904bd29cfc1a6edc8b1"
-          )) as { data: IReponse };
-
-          const parsedEpisodes = data.episodes.map(
-            (episode) =>
-              ({
-                id: episode.id,
-                title: episode.title,
-                description: episode.description,
-                thumbnail: episode.thumbnail,
-                duration: episode.audio_length_sec,
-                publisher: data.publisher,
-                podcastTitle: data.title,
-                published_date: episode.pub_date_ms,
-                url: episode.audio,
-              } as TEpisode)
-          );
-
-          episodes.value = parsedEpisodes;
-
-          localStorage.setItem(
-            "@PODCASTR:EPISODES",
-            JSON.stringify(parsedEpisodes)
-          );
-        } catch (e) {
-          console.log(e);
-        }
-      })();
+        episodes.value = parsedEpisodes;
+      } catch (e) {
+        console.log(e);
+      }
+    })();
 
     return { episodes };
   },

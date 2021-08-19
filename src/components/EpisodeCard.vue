@@ -54,9 +54,7 @@
 <script lang="ts">
 import { TEpisode } from "@/@types/episode";
 import Play from "@/assets/play.svg";
-import { TActionsTypes } from "@/store/modules/player/actions";
 import { defineComponent, PropType } from "vue";
-import { mapActions } from "vuex";
 
 export default defineComponent({
   name: "EpisodeCard",
@@ -71,9 +69,6 @@ export default defineComponent({
   },
   components: {
     Play,
-  },
-  methods: {
-    play: mapActions("player", [TActionsTypes.PLAY]).PLAY,
   },
 });
 </script>
