@@ -10,7 +10,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr v-for="(episode, index) in episodes.slice(startAt)" :key="episode.id">
+      <tr v-for="(episode, index) in episodes" :key="episode.id">
         <td>
           <img :src="episode.thumbnail" :alt="episode.title" class="__thumb" />
         </td>
@@ -27,9 +27,7 @@
           <button
             type="button"
             class="__play"
-            @click.prevent="
-              playList({ episodeList: episodes, current: index + startAt })
-            "
+            @click.prevent="$emit('play', index)"
           >
             <Play />
           </button>
@@ -43,8 +41,6 @@
 import { defineComponent, PropType } from "vue";
 import Play from "@/assets/play.svg";
 import { TEpisode } from "@/@types/episode";
-import { mapActions } from "vuex";
-import { TActionsTypes } from "@/store/modules/player/actions";
 
 export default defineComponent({
   components: {
@@ -54,17 +50,10 @@ export default defineComponent({
     episodes: {
       type: Array as PropType<TEpisode[]>,
     },
-    startAt: {
-      type: Number,
-      default: 0,
-    },
     mock: {
       type: Boolean,
       default: false,
     },
-  },
-  methods: {
-    playList: mapActions("player", [TActionsTypes.PLAY_LIST]).PLAY_LIST,
   },
 });
 </script>

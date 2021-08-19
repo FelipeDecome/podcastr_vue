@@ -19,7 +19,7 @@
     <section class="section episodes">
       <h2 class="__heading">Todos os episódios</h2>
       <!-- ! REMOVE RESPONSABILITY OF PLAYING EPISODE FROM COMPONENT -->
-      <EpisodesTable :episodes="episodes" :startAt="2" />
+      <EpisodesTable :episodes="allEpisodes" @play="handleTablePlay" />
     </section>
   </div>
 </template>
@@ -109,9 +109,15 @@ export default defineComponent({
     lastEpisodes(): TEpisode[] {
       return this.episodes.slice(0, 2);
     },
+    allEpisodes(): TEpisode[] {
+      return this.episodes.slice(2);
+    },
   },
   methods: {
     playList: actions.PLAY_LIST,
+    handleTablePlay(index: number) {
+      this.playList({ episodeList: this.episodes, current: index + 2 });
+    },
   },
 });
 </script>
