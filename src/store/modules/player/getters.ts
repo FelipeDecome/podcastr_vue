@@ -9,6 +9,7 @@ export type TGetters = {
   currentEpisode(state: TState): TEpisode;
   playlistLength(state: TState): number;
   hasNext(state: TState): boolean;
+  hasPrevious(state: TState): boolean;
 };
 
 export const getters: GetterTree<TState, TRoot["state"]> & TGetters = {
@@ -16,6 +17,7 @@ export const getters: GetterTree<TState, TRoot["state"]> & TGetters = {
   playlistLength: (state) => state.playlist.length,
   hasNext: (state) =>
     state.current + 1 < state.playlist.length || state.shuffle,
+  hasPrevious: (state) => state.current > 0 && !state.shuffle,
   current: (state) => state.current,
   isPlaying: (state) => state.isPlaying,
   isLooping: (state) => state.isLooping,

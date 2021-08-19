@@ -16,6 +16,7 @@
 import { TActionsTypes } from "@/store/modules/player/actions";
 import { defineComponent } from "vue";
 import { mapActions, mapGetters } from "vuex";
+import throttle from "lodash.throttle";
 
 const actions = mapActions("player", [
   TActionsTypes.TOGGLE_PLAY,
@@ -47,9 +48,10 @@ export default defineComponent({
     registerAudioRef: actions.REGISTER_AUDIO_REF,
     setupProgressListener() {
       if (this.audioRef)
-        this.audioRef.addEventListener("timeupdate", () => {
-          this.updateProgress(this.audioRef?.currentTime || 0);
-        });
+        this.audioRef.addEventListener(
+          "timeupdate",
+          throttle(this.handleTimeUpdate, 200)
+        );
     },
     handleEpisodeEnded() {
       if (this.hasNext) {
@@ -58,6 +60,9 @@ export default defineComponent({
         this.clearPlayer();
         this.updateProgress(0);
       }
+    },
+    handleTimeUpdate() {
+      this.updateProgress(this.audioRef?.currentTime || 0);
     },
   },
   watch: {

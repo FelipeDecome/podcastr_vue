@@ -12,7 +12,6 @@ import { mapActions, mapGetters } from "vuex";
 import { TActionsTypes } from "@/store/modules/player/actions";
 
 const actions = mapActions("player", [
-  TActionsTypes.UPDATE_PROGRESS,
   TActionsTypes.TOGGLE_PLAY,
   TActionsTypes.TOGGLE_LOOP,
   TActionsTypes.TOGGLE_SHUFFLE,
@@ -35,10 +34,9 @@ export default defineComponent({
   computed: {
     ...mapGetters("player", [
       "currentEpisode",
-      "playlistLength",
       "hasNext",
+      "hasPrevious",
       "current",
-      "playlist",
       "isPlaying",
       "isLooping",
       "shuffle",
@@ -53,7 +51,6 @@ export default defineComponent({
     },
   },
   methods: {
-    updateProgress: actions.UPDATE_PROGRESS,
     togglePlay: actions.TOGGLE_PLAY,
     toggleLoop: actions.TOGGLE_LOOP,
     toggleShuffle: actions.TOGGLE_SHUFFLE,
@@ -63,7 +60,6 @@ export default defineComponent({
       if (!this.audioRef) return;
 
       this.audioRef.currentTime = progress;
-      this.updateProgress(progress);
     },
   },
 });
@@ -127,7 +123,7 @@ export default defineComponent({
         <button
           type="button"
           @click.prevent="previousEpisode"
-          :disabled="!currentEpisode || current === 0 || shuffle"
+          :disabled="!currentEpisode || !hasPrevious"
         >
           <Previous />
         </button>

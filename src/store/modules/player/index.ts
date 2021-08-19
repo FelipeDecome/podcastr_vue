@@ -6,7 +6,7 @@ import { getters, TGetters } from "./getters";
 import { mutations, TMutations } from "./mutations";
 import { state, TState } from "./state";
 
-type TPlayerStore<State> = TBaseModuleStore<
+type TPlayerStore<State = TState> = TBaseModuleStore<
   State,
   TMutations,
   TActions,

@@ -32,7 +32,7 @@ export type TRoot = {
   mutations: TRootMutations;
 };
 
-export type TStore = TPlayerStore<Pick<TRootState, "player">>;
+export type TStore = TPlayerStore;
 
 const debug = process.env.NODE_ENV !== "production";
 const plugins = debug ? [createLogger({})] : [];
