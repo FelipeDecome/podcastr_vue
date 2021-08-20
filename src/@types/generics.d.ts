@@ -1,4 +1,4 @@
-import type { ActionContext, Store } from "vuex";
+import type { ActionContext, DispatchOptions, Store } from "vuex";
 
 type TBaseCommit<Mutations> = <
   M = Mutations,
@@ -10,8 +10,8 @@ type TBaseCommit<Mutations> = <
   options?: CommitOptions
 ) => ReturnType<M[K]>;
 
-type TBaseDispatch<Actions> = <A = Actions, K extends A>(
-  key: K,
+type TBaseDispatch<Actions> = <A = Actions, K extends keyof A>(
+  key: K | string /* Fix namespaced modules typings */,
   payload: Parameters<A[K]>[1],
   options?: DispatchOptions
 ) => ReturnType<A[K]>;

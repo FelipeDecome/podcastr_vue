@@ -26,25 +26,25 @@ type TMutations = {
 };
 
 const mutations: MutationTree<TState> & TMutations = {
-  [TMutationTypes.SET_CURRENT_EPISODE](state, payload) {
+  SET_CURRENT_EPISODE(state, payload) {
     state.current = payload;
   },
-  [TMutationTypes.SET_EPISODE_LIST](state, payload) {
+  SET_EPISODE_LIST(state, payload) {
     state.playlist = payload;
   },
-  [TMutationTypes.SET_IS_PLAYING](state, payload) {
+  SET_IS_PLAYING(state, payload) {
     state.isPlaying = payload;
   },
-  [TMutationTypes.SET_IS_LOOPING](state, payload) {
+  SET_IS_LOOPING(state, payload) {
     state.isLooping = payload;
   },
-  [TMutationTypes.SET_PROGRESS](state, payload) {
+  SET_PROGRESS(state, payload) {
     state.progress = payload;
   },
-  [TMutationTypes.SET_SHUFFLE](state, payload) {
+  SET_SHUFFLE(state, payload) {
     state.shuffle = payload;
   },
-  [TMutationTypes.SET_AUDIO_REF](state, payload) {
+  SET_AUDIO_REF(state, payload) {
     state.audioRef = payload;
   },
 };

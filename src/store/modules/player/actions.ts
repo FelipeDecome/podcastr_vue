@@ -59,7 +59,7 @@ type TActions = {
 };
 
 const actions: ActionTree<TState, TRoot["state"]> & TActions = {
-  [TActionsTypes.PLAY_LIST]({ commit }, payload) {
+  PLAY_LIST({ commit }, payload) {
     const { episodeList, current } = payload;
 
     commit(TMutationTypes.SET_EPISODE_LIST, episodeList);
@@ -67,7 +67,7 @@ const actions: ActionTree<TState, TRoot["state"]> & TActions = {
     commit(TMutationTypes.SET_IS_PLAYING, true);
   },
 
-  [TActionsTypes.PLAY]({ commit }, payload) {
+  PLAY({ commit }, payload) {
     const { episode } = payload;
 
     commit(TMutationTypes.SET_EPISODE_LIST, [episode]);
@@ -75,29 +75,26 @@ const actions: ActionTree<TState, TRoot["state"]> & TActions = {
     commit(TMutationTypes.SET_IS_PLAYING, true);
   },
 
-  [TActionsTypes.TOGGLE_PLAY]({ commit, state }, payload) {
+  TOGGLE_PLAY({ commit, state }, payload) {
     commit(
       TMutationTypes.SET_IS_PLAYING,
       typeof payload === "boolean" ? payload : !state.isPlaying
     );
   },
 
-  [TActionsTypes.TOGGLE_LOOP]({ commit, state }) {
+  TOGGLE_LOOP({ commit, state }) {
     commit(TMutationTypes.SET_IS_LOOPING, !state.isLooping);
   },
 
-  [TActionsTypes.UPDATE_PROGRESS]: (
-    { commit }: TActionContext,
-    payload: number
-  ) => {
+  UPDATE_PROGRESS: ({ commit }: TActionContext, payload: number) => {
     commit(TMutationTypes.SET_PROGRESS, payload);
   },
 
-  [TActionsTypes.TOGGLE_SHUFFLE]({ commit, state }) {
+  TOGGLE_SHUFFLE({ commit, state }) {
     commit(TMutationTypes.SET_SHUFFLE, !state.shuffle);
   },
 
-  [TActionsTypes.NEXT_EPISODE]({ commit, state, getters }) {
+  NEXT_EPISODE({ commit, state, getters }) {
     if (!getters.hasNext) return;
 
     let previousEpisode = state.current + 1;
@@ -106,18 +103,18 @@ const actions: ActionTree<TState, TRoot["state"]> & TActions = {
     commit(TMutationTypes.SET_CURRENT_EPISODE, previousEpisode);
   },
 
-  [TActionsTypes.PREVIOUS_EPISODE]({ commit, state }) {
+  PREVIOUS_EPISODE({ commit, state }) {
     if (state.current === 0 || state.isLooping || state.shuffle) return;
 
     commit(TMutationTypes.SET_CURRENT_EPISODE, state.current - 1);
   },
 
-  [TActionsTypes.CLEAR_PLAYER]({ commit }) {
+  CLEAR_PLAYER({ commit }) {
     commit(TMutationTypes.SET_EPISODE_LIST, []);
     commit(TMutationTypes.SET_CURRENT_EPISODE, 0);
   },
 
-  [TActionsTypes.REGISTER_AUDIO_REF]({ commit }, payload) {
+  REGISTER_AUDIO_REF({ commit }, payload) {
     commit(TMutationTypes.SET_AUDIO_REF, payload);
   },
 };

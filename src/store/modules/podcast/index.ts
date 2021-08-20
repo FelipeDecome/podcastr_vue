@@ -1,19 +1,19 @@
 import { Module } from "vuex";
 import { TBaseModuleStore } from "@/@types/generics";
 import { TRoot } from "@/store";
-import { actions, TActions } from "./actions";
+import { state, TState } from "./state";
 import { getters, TGetters } from "./getters";
 import { mutations, TMutations } from "./mutations";
-import { state, TState } from "./state";
+import { actions, TActions } from "./actions";
 
-type TPlayerStore = TBaseModuleStore<TState, TMutations, TActions, TGetters>;
+type TPodcastStore = TBaseModuleStore<TState, TMutations, TActions, TGetters>;
 
 const store: Module<TState, TRoot["state"]> = {
   state,
-  mutations,
-  actions,
   getters,
+  actions,
+  mutations,
   namespaced: true,
 };
 
-export { store, TState, TGetters, TActions, TMutations, TPlayerStore };
+export { store, TState, TGetters, TActions, TMutations, TPodcastStore };
