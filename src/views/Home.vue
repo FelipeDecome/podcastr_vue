@@ -24,15 +24,13 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, ref } from "vue";
 import { api } from "@/services/api";
 import { TEpisode } from "@/@types/episode";
 import EpisodeCard from "@/components/EpisodeCard.vue";
 import EpisodesTable from "@/components/EpisodesTable.vue";
-import { mapActions, mapGetters } from "vuex";
+import { mapActions } from "vuex";
 import { TActionsTypes } from "@/store/modules/player/actions";
-import { TActionTypes as TPodcastActionsType } from "@/store/modules/podcast/actions";
-import { useStore } from "@/store";
 
 interface IEpisodeResponse {
   id: string;
@@ -65,10 +63,10 @@ export default defineComponent({
     };
   },
   setup() {
+    const episodes = ref<TEpisode[]>([]);
+
     (async () => {
       try {
-        const store = useStore();
-
         const { data } = (await api.get(
           "podcasts/618f72ea42f94904bd29cfc1a6edc8b1"
         )) as { data: IReponse };
@@ -88,18 +86,15 @@ export default defineComponent({
             } as TEpisode)
         );
 
-        store.dispatch(
-          "podcast/" + TPodcastActionsType.SET_EPISODES,
-          parsedEpisodes
-        );
+        episodes.value = parsedEpisodes;
       } catch (e) {
         console.log(e);
       }
     })();
+
+    return { episodes };
   },
   computed: {
-    ...mapGetters("podcast", ["episodes"]),
-
     lastEpisodes(): TEpisode[] {
       return this.episodes.slice(0, 2);
     },
